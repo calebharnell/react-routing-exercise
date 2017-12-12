@@ -7,6 +7,16 @@ import {
 } from 'react-router-dom'
 
 class App extends Component {
+  state ={
+    loggedIn: false
+  }
+
+  toggleLoggedIn = () => {
+    this.setState(prevState => ({
+      loggedIn: !prevState.loggedIn
+    }))
+  }
+
   render() {
     return (
       <Router>
@@ -14,16 +24,24 @@ class App extends Component {
 
           <p>Welcome to my website</p>
 
+          <hr />
+          <button onClick={this.toggleLoggedIn}>{this.state.loggedIn ? 'Log out' : 'Log In'}</button>
+          <p>{this.state.loggedIn && 'You are currently logged in'}</p>
+          <hr />
+
           <strong>Navigation: </strong>
           <Link to="/">Home</Link> |
           <Link to="/hello"> Hello</Link> |
+          <Link to="/hello/you"> Hello You</Link> |
           <Link to="/goodbye"> Goodbye</Link> |
           <Link to="/contact"> Contact</Link>
+          <hr />
 
-
-          <Route path="/hello" component={Hello} />
+          <Route exact path="/hello" component={Hello} />
+          <Route path="/hello/:name" component={HelloYou} />
           <Route path="/goodbye" component={Goodbye} />
           <Route path="/contact" component={Contact} />
+          <Route path="/login" component={Login} />
 
         </div>
       </Router>
@@ -31,8 +49,16 @@ class App extends Component {
   }
 }
 
+const Login = () => (
+  <p>Tech debt: Login form goes here!</p>
+)
+
 const Hello = () => (
   <p>Hello World!</p>
+)
+
+const HelloYou = (props) => (
+  <p>Hello {props.match.params.name}</p>
 )
 
 const Goodbye = () => (
