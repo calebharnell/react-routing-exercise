@@ -3,7 +3,8 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom'
 
 class App extends Component {
@@ -40,7 +41,15 @@ class App extends Component {
           <Route exact path="/hello" component={Hello} />
           <Route path="/hello/:name" component={HelloYou} />
           <Route path="/goodbye" component={Goodbye} />
-          <Route path="/contact" component={Contact} />
+          <Route path="/contact" component={() => {
+            if (this.state.loggedIn) {
+              // Proceed
+              return <Contact />
+            } else {
+              // GTFO
+              return <Redirect to="/login" />
+            }
+          }} />
           <Route path="/login" component={Login} />
 
         </div>
